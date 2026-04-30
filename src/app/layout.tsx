@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Noto_Sans_Arabic } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,19 +18,22 @@ export const metadata: Metadata = {
   description: "Rapid medical emergency assessment and first aid guidance.",
 };
 
-import ThemeHandler from "@/components/ThemeHandler";
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${notoCantArabic.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head />
-      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-white" suppressHydrationWarning>
-        <ThemeHandler />
-        {children}
+      <body className={`${inter.variable} ${notoCantArabic.variable} min-h-full flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-300`} suppressHydrationWarning>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

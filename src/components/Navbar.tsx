@@ -3,6 +3,8 @@
 import { useEmergencyStore } from "@/store/useEmergencyStore";
 import { Globe, ShieldAlert } from "lucide-react";
 
+import ThemeToggle from "./ThemeToggle";
+
 export default function Navbar() {
   const { language, setLanguage } = useEmergencyStore();
 
@@ -24,6 +26,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           <div className="relative group">
             <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 hover:border-brand-green/30 transition-all cursor-pointer">
               <Globe size={16} className="text-brand-green" />

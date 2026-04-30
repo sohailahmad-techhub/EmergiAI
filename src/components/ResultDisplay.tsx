@@ -4,7 +4,12 @@ import { useEmergencyStore } from "@/store/useEmergencyStore";
 import { translations } from "@/lib/translations";
 import { AlertTriangle, CheckCircle2, PhoneCall, Info, MapPin, Navigation, ShieldCheck, Map as MapIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import HospitalMap from "./HospitalMap";
+import dynamic from "next/dynamic";
+
+const HospitalMap = dynamic(() => import("./HospitalMap"), { 
+  ssr: false,
+  loading: () => <div className="w-full h-[400px] bg-slate-100 dark:bg-slate-800 animate-pulse rounded-[2rem]" />
+});
 
 export default function ResultDisplay() {
   const { language, result, reset } = useEmergencyStore();
@@ -13,9 +18,9 @@ export default function ResultDisplay() {
   if (!result) return null;
 
   const severityColors = {
-    Low: "bg-blue-100 text-white border-blue-200",
-    Medium: "bg-amber-100 text-white border-amber-200",
-    Critical: "bg-red-100 text-white border-red-200 animate-pulse shadow-lg shadow-red-200/50",
+    Low: "bg-blue-600 text-white border-blue-700",
+    Medium: "bg-amber-500 text-white border-amber-600",
+    Critical: "bg-red-600 text-white border-red-700 animate-pulse shadow-lg shadow-red-500/50",
   };
 
   const severityIcons = {
@@ -67,7 +72,7 @@ export default function ResultDisplay() {
               <div className="w-12 h-12 rounded-2xl bg-brand-green/10 flex items-center justify-center text-brand-green">
                 <ShieldCheck size={28} />
               </div>
-              <h3 className={`text-xl font-semibold text-white ${language !== 'en' ? 'urdu-text' : ''}`}>
+              <h3 className={`text-xl font-semibold text-slate-900 dark:text-white ${language !== 'en' ? 'urdu-text' : ''}`}>
                 {t.actions}
               </h3>
             </div>
@@ -84,7 +89,7 @@ export default function ResultDisplay() {
                   <span className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-xl bg-brand-green/10 text-brand-green font-black text-sm group-hover/item:scale-110 transition-transform">
                     {idx + 1}
                   </span>
-                  <p className="text-white font-normal leading-relaxed text-lg">
+                  <p className="text-slate-700 dark:text-white font-normal leading-relaxed text-lg">
                     {action}
                   </p>
                 </motion.div>
@@ -126,7 +131,7 @@ export default function ResultDisplay() {
                   <div className="w-10 h-10 rounded-full bg-brand-green/10 flex items-center justify-center text-brand-green">
                     <MapPin size={24} />
                   </div>
-                  <h3 className={`text-xl font-black text-white ${language !== 'en' ? 'urdu-text' : ''}`}>
+                  <h3 className={`text-xl font-black text-slate-900 dark:text-white ${language !== 'en' ? 'urdu-text' : ''}`}>
                     {t.nearbyHospitals}
                   </h3>
                 </div>
@@ -151,10 +156,10 @@ export default function ResultDisplay() {
                         🏥
                       </div>
                       <div className="space-y-1">
-                        <h4 className="font-semibold text-xl text-white leading-tight">
+                        <h4 className="font-semibold text-xl text-slate-900 dark:text-white leading-tight">
                           {hospital.name}
                         </h4>
-                        <p className="text-sm font-normal text-slate-200 max-w-xs">
+                        <p className="text-sm font-normal text-slate-600 dark:text-slate-300 max-w-xs">
                           {hospital.address}
                         </p>
                         <div className="flex items-center gap-3 mt-2">

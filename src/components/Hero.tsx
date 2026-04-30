@@ -61,7 +61,7 @@ export default function Hero() {
           </span>
         </h1>
         
-        <p className={`text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-12 font-medium leading-relaxed ${language !== 'en' ? 'urdu-text' : ''}`}>
+        <p className={`text-xl md:text-2xl text-slate-600 dark:text-slate-200 max-w-2xl mx-auto mb-12 font-medium leading-relaxed ${language !== 'en' ? 'urdu-text' : ''}`}>
           {t.subtitle}
         </p>
       </motion.div>

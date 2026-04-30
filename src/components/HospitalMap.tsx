@@ -3,6 +3,7 @@
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
 import { useState, useCallback, useMemo } from "react";
 import { useEmergencyStore } from "@/store/useEmergencyStore";
+import { useTheme } from "next-themes";
 
 const containerStyle = {
   width: '100%',
@@ -10,84 +11,87 @@ const containerStyle = {
   borderRadius: '2rem',
 };
 
-const mapOptions = {
-  disableDefaultUI: true,
-  zoomControl: true,
-  styles: [
-    { elementType: "geometry", stylers: [{ color: "#061716" }] },
-    { elementType: "labels.text.stroke", stylers: [{ color: "#061716" }] },
-    { elementType: "labels.text.fill", stylers: [{ color: "#2d5a57" }] },
-    {
-      featureType: "administrative.locality",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#4ebfb6" }],
-    },
-    {
-      featureType: "poi",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#4ebfb6" }],
-    },
-    {
-      featureType: "poi.park",
-      elementType: "geometry",
-      stylers: [{ color: "#062b29" }],
-    },
-    {
-      featureType: "poi.park",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#2d5a57" }],
-    },
-    {
-      featureType: "road",
-      elementType: "geometry",
-      stylers: [{ color: "#0d312f" }],
-    },
-    {
-      featureType: "road",
-      elementType: "geometry.stroke",
-      stylers: [{ color: "#061716" }],
-    },
-    {
-      featureType: "road",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#4ebfb6" }],
-    },
-    {
-      featureType: "road.highway",
-      elementType: "geometry",
-      stylers: [{ color: "#144a47" }],
-    },
-    {
-      featureType: "road.highway",
-      elementType: "geometry.stroke",
-      stylers: [{ color: "#061716" }],
-    },
-    {
-      featureType: "road.highway",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#4ebfb6" }],
-    },
-    {
-      featureType: "water",
-      elementType: "geometry",
-      stylers: [{ color: "#04100f" }],
-    },
-    {
-      featureType: "water",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#2d5a57" }],
-    },
-    {
-      featureType: "water",
-      elementType: "labels.text.stroke",
-      stylers: [{ color: "#04100f" }],
-    },
-  ],
-};
+const darkMapStyles = [
+  { elementType: "geometry", stylers: [{ color: "#061716" }] },
+  { elementType: "labels.text.stroke", stylers: [{ color: "#061716" }] },
+  { elementType: "labels.text.fill", stylers: [{ color: "#2d5a57" }] },
+  {
+    featureType: "administrative.locality",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#4ebfb6" }],
+  },
+  {
+    featureType: "poi",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#4ebfb6" }],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "geometry",
+    stylers: [{ color: "#062b29" }],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#2d5a57" }],
+  },
+  {
+    featureType: "road",
+    elementType: "geometry",
+    stylers: [{ color: "#0d312f" }],
+  },
+  {
+    featureType: "road",
+    elementType: "geometry.stroke",
+    stylers: [{ color: "#061716" }],
+  },
+  {
+    featureType: "road",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#4ebfb6" }],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry",
+    stylers: [{ color: "#144a47" }],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry.stroke",
+    stylers: [{ color: "#061716" }],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#4ebfb6" }],
+  },
+  {
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [{ color: "#04100f" }],
+  },
+  {
+    featureType: "water",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#2d5a57" }],
+  },
+  {
+    featureType: "water",
+    elementType: "labels.text.stroke",
+    stylers: [{ color: "#04100f" }],
+  },
+];
 
 export default function HospitalMap() {
   const { result, location } = useEmergencyStore();
+  const { theme } = useTheme();
   const [selectedHospital, setSelectedHospital] = useState<any>(null);
+
+  const mapOptions = useMemo(() => ({
+    disableDefaultUI: true,
+    zoomControl: true,
+    styles: theme === "dark" ? darkMapStyles : [],
+  }), [theme]);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -154,9 +158,9 @@ export default function HospitalMap() {
             position={{ lat: selectedHospital.lat, lng: selectedHospital.lng }}
             onCloseClick={() => setSelectedHospital(null)}
           >
-            <div className="p-2 min-w-[150px]">
-              <h4 className="font-bold text-slate-900">{selectedHospital.name}</h4>
-              <p className="text-xs text-slate-600 mb-2">{selectedHospital.address}</p>
+            <div className="p-2 min-w-[150px] bg-white dark:bg-slate-900">
+              <h4 className="font-bold text-slate-900 dark:text-white">{selectedHospital.name}</h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 mb-2">{selectedHospital.address}</p>
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedHospital.name + ' ' + selectedHospital.address)}`}
                 target="_blank"

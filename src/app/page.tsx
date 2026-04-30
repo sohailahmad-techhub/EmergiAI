@@ -20,7 +20,7 @@ export default function Home() {
         <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-brand-teal/5 rounded-full blur-[150px]" />
       </div>
       
-      <footer className="mt-20 py-10 text-center text-slate-400 text-sm border-t border-slate-100 dark:border-slate-800">
+      <footer className="mt-20 py-10 text-center text-slate-500 dark:text-slate-400 text-sm border-t border-slate-100 dark:border-slate-800">
         <p>© 2026 EmergiAI - Rapid Response Medical Assistant</p>
         <p className="mt-2">Always seek professional medical help in real emergencies.</p>
       </footer>

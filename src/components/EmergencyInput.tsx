@@ -212,7 +212,7 @@ export default function EmergencyInput() {
               className={`group flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all shadow-lg ${
                 isRecording 
                 ? 'bg-red-500 text-white shadow-red-500/20' 
-                : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:shadow-xl'
+                : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-white hover:shadow-xl'
               }`}
             >
               <div className={isRecording ? 'animate-pulse' : 'group-hover:scale-110 transition-transform'}>
@@ -245,7 +245,7 @@ export default function EmergencyInput() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="flex items-center gap-2 mt-4 p-3 rounded-xl bg-red-50 text-red-600 text-sm border border-red-100"
+            className="flex items-center gap-2 mt-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 text-sm border border-red-100 dark:border-red-900/50"
           >
             <AlertCircle size={16} />
             {error}
