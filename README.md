@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EmergiAI
 
-## Getting Started
+A multilingual emergency guidance web app. Describe a medical emergency by typing or speaking, and get a severity rating, immediate steps, local advice for Pakistan, and nearby hospitals.
 
-First, run the development server:
+**Live demo:** https://emergi-ai-delta.vercel.app
 
+> Not a substitute for professional care. In Pakistan, call 1122.
+
+## Features
+- AI triage with a severity level (LOW, MEDIUM or CRITICAL), step-by-step actions and next steps
+- Responses in the user's chosen language, including Urdu and Pashto
+- Voice input, transcribed with Groq Whisper (`whisper-large-v3`)
+- Top 3 nearby hospitals with distance and Google Maps directions
+- Fallback guidance if the AI service is unavailable
+- Light and dark theme
+
+## Tech stack
+- **Frontend:** Next.js, TypeScript
+- **Backend:** FastAPI, Python, httpx
+- **AI:** OpenRouter (LLM triage), Groq (speech-to-text)
+- **Maps:** Google Maps Places and Distance Matrix APIs
+- **Hosting:** Vercel
+
+## How it works
+1. The user describes symptoms by text or voice (`POST /transcribe` for audio).
+2. `POST /analyze` sends the situation and language to an LLM with a strict JSON-only prompt.
+3. The backend validates the JSON, falls back to safe default guidance if it's invalid, and adds nearby hospitals when location is shared.
+4. The frontend shows the result and a hospital map.
+
+## Run locally
 ```bash
+# Backend
+cd backend
+pip install -r requirements.txt
+# .env: OPENROUTER_API_KEY, GROQ_API_KEY, GOOGLE_MAPS_API_KEY
+uvicorn main:app --reload --port 8000
+
+# Frontend (repo root, new terminal)
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
